@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Team, type: :model do
   describe 'validations' do
-    let!(:team) {described_class.new}
+    let!(:team) {create :team}
 
     it { should have_many(:memberships).dependent(:destroy) }
 
@@ -12,8 +12,16 @@ RSpec.describe Team, type: :model do
 
     it {should validate_presence_of(:lead)}
 
+    it {should validate_presence_of(:active)}
+
     it 'should not be nil when instantiated' do
       expect(team).not_to be_nil
+    end
+
+    context 'valid attrs' do
+      it 'should match the active' do
+        expect(team.active).to eq('Yes')
+      end
     end
   end
 end

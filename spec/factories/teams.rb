@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :team do
     name { Faker::Team.name }
     lead { Faker::Name.name }
-    active { false }
+    active {"Yes"}
   end
 end

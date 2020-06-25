@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_22_214651) do
+ActiveRecord::Schema.define(version: 2020_06_24_172901) do
 
   create_table "employees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "first_name", null: false
@@ -23,31 +23,21 @@ ActiveRecord::Schema.define(version: 2020_06_22_214651) do
   create_table "memberships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.bigint "employee_id", null: false
-    t.boolean "active"
+    t.string "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["employee_id"], name: "index_memberships_on_employee_id"
     t.index ["team_id"], name: "index_memberships_on_team_id"
   end
 
-  create_table "snapits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "team_name", null: false
-    t.integer "total_member", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "teams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "lead", null: false
-    t.boolean "active", null: false
+    t.string "active", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "snapit_id", null: false
-    t.index ["snapit_id"], name: "index_teams_on_snapit_id"
   end
 
   add_foreign_key "memberships", "employees"
   add_foreign_key "memberships", "teams"
-  add_foreign_key "teams", "snapits"
 end
