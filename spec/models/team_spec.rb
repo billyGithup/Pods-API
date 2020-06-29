@@ -12,15 +12,13 @@ RSpec.describe Team, type: :model do
 
     it {should validate_presence_of(:lead)}
 
-    it {should validate_presence_of(:active)}
-
     it 'should not be nil when instantiated' do
       expect(team).not_to be_nil
     end
 
     context 'valid attrs' do
       it 'should match the active' do
-        expect(team.active).to eq('Yes')
+        expect(team.active).to eq(false)
       end
     end
   end

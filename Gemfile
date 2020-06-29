@@ -35,6 +35,7 @@ group :development, :test do
   gem 'kaminari'
   gem 'shoulda-matchers'
   gem 'pry-rails'
+  gem 'active_model_serializers'
 end
 
 group :development do

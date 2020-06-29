@@ -7,47 +7,43 @@ class TeamsController < ApplicationController
   def show
     team = Team.find(params[:id])
     render json: team, status: :ok
-  rescue
-    render json: {
-        message: 'Record is not found!'
-    }, status: :not_found
   end
 
   def create
-    new_team = Team.create!(whitelisted_params)
+    new_team = Team.create!(whitelisted_team_params)
     render json: new_team, status: :created
-  rescue
-    render json: {
-        message: 'Name and Lead only allow letters, spaces, apostrophe, and dots. Active only allows Yes or No.'
-    }, status: :unprocessable_entity
   end
 
   def update
     team = Team.find(params[:id])
-    team.update!(whitelisted_params)
+    team.update!(whitelisted_team_params)
     render json: team, status: :ok
-  rescue ActiveRecord::RecordNotFound
-    render json: {
-        message: 'Record is not found!'
-    }, status: :not_found
-  rescue ActiveRecord::RecordInvalid
-    render json: {
-        message: 'Name and Lead only allow letters, spaces, apostrophe, and dots. Active only allows Yes or No.'
-    }, status: :unprocessable_entity
   end
 
   def destroy
     team = Team.find(params[:id])
     team.destroy
     render json: Team.all, status: :ok
-  rescue
-    render json: {
-        message: 'Record is not found!'
-    }, status: :not_found
+  end
+
+  def add_employee
+    team = Team.find(params[:id])
+    employee = Employee.create!(sanitized_employee_params)
+    team.memberships.create(employee: employee)
+    render json: team.employees, status: :ok
+  end
+
+  def list_employees
+    team = Team.find(params[:id])
+    render json: team.employees, status: :ok
   end
 
   private
-  def whitelisted_params
+  def whitelisted_team_params
     params.require(:team).permit(:name, :lead, :active)
+  end
+
+  def sanitized_employee_params
+    params.require(:employee).permit(:first_name, :last_name, :email)
   end
 end
