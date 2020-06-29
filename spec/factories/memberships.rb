@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :membership do
     team { nil }
     employee { nil }
-    active { 'No' }
+    active { false }
   end
 end
